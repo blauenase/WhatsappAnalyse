@@ -11,7 +11,7 @@ def remove_name():
             newline = line.replace("daniel m", "")
             newtext += newline
         if "arweiler" in line:
-            newline = line.replace("daniel m", "")
+            newline = line.replace("arweiler", "")
             newtext += newline
         if name.lower() in line:
             newline = line.replace(name.lower(), "")
