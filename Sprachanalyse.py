@@ -2,7 +2,7 @@ import re
 import json
 
 name = "Jana"
-#test
+#test2
 def remove_name():
     file = open(name + "/" + name + "-Formatiert.txt", "r", encoding = "utf8")
     newtext = ""
