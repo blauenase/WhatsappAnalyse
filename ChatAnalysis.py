@@ -1,10 +1,60 @@
 import re
 import os
 import shutil
+import tkinter as tk
+from tkinter import filedialog
 
 zuanalysieren = "Jana"      ### Hier Name einfügen
 
 ausnahmen = {"robin", "m", "daniel", "batu", "justus", "jana", "giuliano", "arweiler", "katha", "irina", "mama", "papa", "oma", "medien", "ausgeschlossen"}
+
+def __init__(self):
+      self.file = None
+      self.alphavar = None
+      self.numvar = None
+      self.formated_file = None
+
+def getfile(self):
+    file = tk.filedialog.askopenfilename()
+    print(file)
+    i = 0
+    finished = False
+    while not(finished):
+        i = i+1
+        #print(file[-(i+4):-(i+1)])
+        if file[-(i+1)] == "/" or file[-(i+4):-(i+1)] == "mit":
+            self.name = file[-i:-4]
+            self.directory = file[:-i]
+            print(self.directory)
+            finished = True
+    label.config(text = file)
+    print(self.name)
+    return self.name
+
+def openwindow(self):
+    root = tk.Tk()
+
+    canvas = tk.Canvas(root, width = "200", height = "200")
+    canvas.pack()
+
+    self.alphavar = tk.IntVar()
+    alphacheckbox = tk.Checkbutton(canvas, text ="Sort alphabetically", variable = self.alphavar)
+    alphacheckbox.pack()
+
+    self.numvar = tk.IntVar()
+    numcheckbox = tk.Checkbutton(canvas, text ="Sort nummerically", variable = self.numvar)
+    numcheckbox.pack()
+    
+    button = tk.Button(canvas, text = "Select", command = getfile)
+    button.pack()
+
+    global label
+    label = tk.Label(canvas)
+    label.pack()
+    button = tk.Button(canvas, text = "Analyse!", command = starte_analyse)
+    button.pack()
+
+    tk.mainloop()
 
 def format(file, name):
     s = file.read()
@@ -78,17 +128,21 @@ def word_count(file_as_string, name):
     ergebnis_file_numerical.close()
     file.close()
     
+def starte_analyse():
+    count_chars(formated_file, zuanalysieren)
+    word_count(formated_file, zuanalysieren)
 
-try:
-    os.mkdir(zuanalysieren)
-except FileExistsError:
-    shutil.rmtree(zuanalysieren, ignore_errors=True)
-    os.mkdir(zuanalysieren)
+def createfolder(self):
+    try:
+        os.mkdir(self.directory + self.name)
+    except FileExistsError:
+        shutil.rmtree(self.directory + self.name, ignore_errors=True)
+        os.mkdir(self.directory + self.name)
 
-file = open(zuanalysieren + ".txt","r", encoding = "utf8")
-formated_file = format(file, zuanalysieren)
-count_chars(formated_file, zuanalysieren)
-word_count(formated_file, zuanalysieren)
+#file = open(zuanalysieren + ".txt","r", encoding = "utf8")
+#formated_file = format(file, zuanalysieren)
+
+openwindow(self)
 
 
 file.close()
