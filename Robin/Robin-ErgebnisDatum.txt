@@ -1,0 +1,62 @@
+Tag:1  1 Nachrichten
+Tag:2  0 Nachrichten
+Tag:3  26 Nachrichten
+Tag:4  21 Nachrichten
+Tag:5  10 Nachrichten
+Tag:6  0 Nachrichten
+Tag:7  24 Nachrichten
+Tag:8  78 Nachrichten
+Tag:9  18 Nachrichten
+Tag:10  0 Nachrichten
+Tag:11  10 Nachrichten
+Tag:12  64 Nachrichten
+Tag:13  42 Nachrichten
+Tag:14  32 Nachrichten
+Tag:15  11 Nachrichten
+Tag:16  30 Nachrichten
+Tag:17  14 Nachrichten
+Tag:18  4 Nachrichten
+Tag:19  9 Nachrichten
+Tag:20  4 Nachrichten
+Tag:21  12 Nachrichten
+Tag:22  26 Nachrichten
+Tag:23  14 Nachrichten
+Tag:24  0 Nachrichten
+Tag:25  11 Nachrichten
+Tag:26  24 Nachrichten
+Tag:27  18 Nachrichten
+Tag:28  12 Nachrichten
+Tag:29  6 Nachrichten
+Tag:30  11 Nachrichten
+Tag:31  5 Nachrichten
+Januar:  202 Nachrichten
+Februar:  2 Nachrichten
+März:  0 Nachrichten
+April:  4 Nachrichten
+Mai:  70 Nachrichten
+Juni:  22 Nachrichten
+July:  31 Nachrichten
+August:  18 Nachrichten
+September:  0 Nachrichten
+Oktober:  79 Nachrichten
+November:  91 Nachrichten
+Dezember:  18 Nachrichten
+Jahr:14  0 Nachrichten
+Jahr:15  0 Nachrichten
+Jahr:16  0 Nachrichten
+Jahr:17  4 Nachrichten
+Jahr:18  336 Nachrichten
+Jahr:19  197 Nachrichten
+Oktober '17  2 Nachrichten
+November '17  2 Nachrichten
+Januar '18  5 Nachrichten
+Februar '18  2 Nachrichten
+April '18  4 Nachrichten
+Mai '18  70 Nachrichten
+Juni '18  22 Nachrichten
+July '18  31 Nachrichten
+August '18  18 Nachrichten
+Oktober '18  77 Nachrichten
+November '18  89 Nachrichten
+Dezember '18  18 Nachrichten
+Januar '19  197 Nachrichten

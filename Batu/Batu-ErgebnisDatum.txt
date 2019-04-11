@@ -1,0 +1,98 @@
+Tag:1  588 Nachrichten
+Tag:2  411 Nachrichten
+Tag:3  348 Nachrichten
+Tag:4  364 Nachrichten
+Tag:5  237 Nachrichten
+Tag:6  191 Nachrichten
+Tag:7  222 Nachrichten
+Tag:8  249 Nachrichten
+Tag:9  169 Nachrichten
+Tag:10  233 Nachrichten
+Tag:11  173 Nachrichten
+Tag:12  181 Nachrichten
+Tag:13  412 Nachrichten
+Tag:14  231 Nachrichten
+Tag:15  351 Nachrichten
+Tag:16  429 Nachrichten
+Tag:17  316 Nachrichten
+Tag:18  335 Nachrichten
+Tag:19  399 Nachrichten
+Tag:20  367 Nachrichten
+Tag:21  225 Nachrichten
+Tag:22  296 Nachrichten
+Tag:23  244 Nachrichten
+Tag:24  463 Nachrichten
+Tag:25  312 Nachrichten
+Tag:26  315 Nachrichten
+Tag:27  445 Nachrichten
+Tag:28  343 Nachrichten
+Tag:29  156 Nachrichten
+Tag:30  244 Nachrichten
+Tag:31  130 Nachrichten
+Januar:  514 Nachrichten
+Februar:  1283 Nachrichten
+März:  944 Nachrichten
+April:  486 Nachrichten
+Mai:  657 Nachrichten
+Juni:  544 Nachrichten
+July:  929 Nachrichten
+August:  871 Nachrichten
+September:  761 Nachrichten
+Oktober:  1092 Nachrichten
+November:  893 Nachrichten
+Dezember:  405 Nachrichten
+Jahr:14  8 Nachrichten
+Jahr:15  892 Nachrichten
+Jahr:16  1695 Nachrichten
+Jahr:17  2561 Nachrichten
+Jahr:18  4114 Nachrichten
+Jahr:19  109 Nachrichten
+Dezember '14  8 Nachrichten
+Januar '15  71 Nachrichten
+Februar '15  5 Nachrichten
+März '15  67 Nachrichten
+April '15  71 Nachrichten
+Mai '15  206 Nachrichten
+Juni '15  41 Nachrichten
+July '15  88 Nachrichten
+September '15  48 Nachrichten
+Oktober '15  38 Nachrichten
+November '15  201 Nachrichten
+Dezember '15  56 Nachrichten
+Januar '16  48 Nachrichten
+Februar '16  68 Nachrichten
+März '16  202 Nachrichten
+April '16  101 Nachrichten
+Mai '16  99 Nachrichten
+Juni '16  306 Nachrichten
+July '16  92 Nachrichten
+August '16  59 Nachrichten
+September '16  40 Nachrichten
+Oktober '16  262 Nachrichten
+November '16  332 Nachrichten
+Dezember '16  86 Nachrichten
+Januar '17  159 Nachrichten
+Februar '17  451 Nachrichten
+März '17  325 Nachrichten
+April '17  71 Nachrichten
+Mai '17  196 Nachrichten
+Juni '17  109 Nachrichten
+July '17  275 Nachrichten
+August '17  334 Nachrichten
+September '17  289 Nachrichten
+Oktober '17  199 Nachrichten
+November '17  102 Nachrichten
+Dezember '17  51 Nachrichten
+Januar '18  127 Nachrichten
+Februar '18  759 Nachrichten
+März '18  350 Nachrichten
+April '18  243 Nachrichten
+Mai '18  156 Nachrichten
+Juni '18  88 Nachrichten
+July '18  474 Nachrichten
+August '18  478 Nachrichten
+September '18  384 Nachrichten
+Oktober '18  593 Nachrichten
+November '18  258 Nachrichten
+Dezember '18  204 Nachrichten
+Januar '19  109 Nachrichten
