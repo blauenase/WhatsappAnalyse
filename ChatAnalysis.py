@@ -8,45 +8,49 @@ zuanalysieren = "Jana"      ### Hier Name einfügen
 
 ausnahmen = {"robin", "m", "daniel", "batu", "justus", "jana", "giuliano", "arweiler", "katha", "irina", "mama", "papa", "oma", "medien", "ausgeschlossen"}
 
-def __init__(self):
-      self.file = None
-      self.alphavar = None
-      self.numvar = None
-      self.formated_file = None
 
-def getfile(self):
-    file = tk.filedialog.askopenfilename()
-    print(file)
+file = None
+filename = None
+name = None
+alphavar = None
+numvar = None
+directory = None
+formated_file = None
+
+def getfile():
+    file = tk.filedialog.askopenfile(mode = "r")
+    filename = file.name
+    print(filename)
     i = 0
     finished = False
     while not(finished):
         i = i+1
         #print(file[-(i+4):-(i+1)])
-        if file[-(i+1)] == "/" or file[-(i+4):-(i+1)] == "mit":
-            self.name = file[-i:-4]
-            self.directory = file[:-i]
-            print(self.directory)
+        if filename[-(i+1)] == "/" or filename[-(i+4):-(i+1)] == "mit":
+            name = filename[-i:-4]
+            directory = filename[:-i]
+            print(directory)
             finished = True
-    label.config(text = file)
-    print(self.name)
-    return self.name
+    label.config(text = filename)
+    print(name)
+    return file, directory, name
 
-def openwindow(self):
+def openwindow():
     root = tk.Tk()
 
     canvas = tk.Canvas(root, width = "200", height = "200")
     canvas.pack()
 
-    self.alphavar = tk.IntVar()
-    alphacheckbox = tk.Checkbutton(canvas, text ="Sort alphabetically", variable = self.alphavar)
+    alphavar = tk.IntVar()
+    alphacheckbox = tk.Checkbutton(canvas, text ="Sort alphabetically", variable = alphavar)
     alphacheckbox.pack()
 
-    self.numvar = tk.IntVar()
-    numcheckbox = tk.Checkbutton(canvas, text ="Sort nummerically", variable = self.numvar)
+    numvar = tk.IntVar()
+    numcheckbox = tk.Checkbutton(canvas, text ="Sort nummerically", variable = numvar)
     numcheckbox.pack()
     
-    button = tk.Button(canvas, text = "Select", command = getfile)
-    button.pack()
+    #button = tk.Button(canvas, text = "Select", command = getfile)
+    #button.pack()
 
     global label
     label = tk.Label(canvas)
@@ -56,12 +60,12 @@ def openwindow(self):
 
     tk.mainloop()
 
-def format(file, name):
-    s = file.read()
+def format(file, directory, name):
+    s = open(file.name, encoding = "utf8").read()
     res1 = re.sub(r'[^\w\s]','',s) #punkte und kommas entfernen
     res2 = re.sub(r'\d+', '', res1) #Zahlen entfernen
     res3 = res2.lower() #alles klein
-    formatiert_file = open(zuanalysieren + "/" + name + "-Formatiert.txt", "w+", encoding = "utf8")   #Neue Datei erstellen
+    formatiert_file = open(directory + name + "/" + name + "-Formatiert.txt", "w+", encoding = "utf8")   #Neue Datei erstellen
     formatiert_file.write("") #falls vorhanden leeren
     formatiert_file.write(res3)
     formated_string = res3
@@ -82,7 +86,7 @@ def count_chars(file_as_string, name):
     ergebnis_file_alpha.write("Lines %i  Words %i   Chars %i \n" % (numLines,numWords,numChars))
     ergebnis_file_alpha.close()
 
-def word_count(file_as_string, name):
+def word_count(file_as_string, directory, name):
     anzahl = 0
     alpha = dict()
     alpha.clear()
@@ -105,7 +109,7 @@ def word_count(file_as_string, name):
             anzahl += 1
     worter = list(alpha.keys())
     worter.sort()
-    ergebnis_file_alpha = open(zuanalysieren + "/" + name + "-Ergebnis_alpha.txt","a+", encoding = "utf8") #Neue Datei
+    ergebnis_file_alpha = open(directory + name + "/" + name + "-Ergebnis_alpha.txt","a+", encoding = "utf8") #Neue Datei
     ergebnis_file_alpha.write("Wortschatz: " + str(anzahl) +"\n")
     #for i in range(0,10):
     #    ergebnis_file.write("Platz" + " " + str(i+1) + ": " + topwort[i] + " mit " + str(alpha[topwort[i]]) + "\n")
@@ -113,7 +117,7 @@ def word_count(file_as_string, name):
         #print(item, counts[item])
         ergebnis_file_alpha.write(item + " " + str(alpha[item]) + "\n")
     num = dict()
-    ergebnis_file_numerical = open(zuanalysieren + "/" + name + "-Ergebnis_numerical.txt","a+", encoding = "utf8")
+    ergebnis_file_numerical = open(directory + name + "/" + name + "-Ergebnis_numerical.txt","a+", encoding = "utf8")
     allezahlen = list(alpha.values())
     allezahlen.sort()
     for index in allezahlen:
@@ -129,20 +133,23 @@ def word_count(file_as_string, name):
     file.close()
     
 def starte_analyse():
-    count_chars(formated_file, zuanalysieren)
-    word_count(formated_file, zuanalysieren)
+    file, directory, name = getfile()
+    createfolder(directory, name)
+    formatedstring = format(file, directory, name)
+    #count_chars(formated_file, zuanalysieren)
+    word_count(formatedstring, directory, name)
 
-def createfolder(self):
+def createfolder(directory, name):
     try:
-        os.mkdir(self.directory + self.name)
+        os.mkdir(directory + name)
     except FileExistsError:
-        shutil.rmtree(self.directory + self.name, ignore_errors=True)
-        os.mkdir(self.directory + self.name)
+        shutil.rmtree(directory + name, ignore_errors=True)
+        os.mkdir(directory + name)
 
 #file = open(zuanalysieren + ".txt","r", encoding = "utf8")
 #formated_file = format(file, zuanalysieren)
 
-openwindow(self)
+openwindow()
 
 
 file.close()
