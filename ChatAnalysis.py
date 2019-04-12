@@ -23,13 +23,17 @@ def getfile():
     print(filename)
     i = 0
     finished = False
+    namebestimmt = False
     while not(finished):
         i = i+1
         #print(file[-(i+4):-(i+1)])
-        if filename[-(i+1)] == "/" or filename[-(i+4):-(i+1)] == "mit":
+        if filename[-(i+1)] == "/" and not namebestimmt or filename[-(i+4):-(i+1)] == "mit" and not namebestimmt:
             name = filename[-i:-4]
+            print("Name " + name)
+            namebestimmt = True
+        if filename[-(i+1)] == "/":
             directory = filename[:-i]
-            print(directory)
+            print("Dir " + directory)
             finished = True
     label.config(text = filename)
     print(name)
