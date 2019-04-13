@@ -4,8 +4,6 @@ import shutil
 import tkinter as tk
 from tkinter import filedialog
 
-zuanalysieren = "Jana"      ### Hier Name einfügen
-
 ausnahmen = {"robin", "m", "daniel", "batu", "justus", "jana", "giuliano", "arweiler", "katha", "irina", "mama", "papa", "oma", "medien", "ausgeschlossen"}
 
 
@@ -22,11 +20,10 @@ def getfile():
     filename = file.name
     print(filename)
     i = 0
-    finished = False
+    dirbestimmt = False
     namebestimmt = False
-    while not(finished):
+    while not dirbestimmt:
         i = i+1
-        #print(file[-(i+4):-(i+1)])
         if filename[-(i+1)] == "/" and not namebestimmt or filename[-(i+4):-(i+1)] == "mit" and not namebestimmt:
             name = filename[-i:-4]
             print("Name " + name)
@@ -34,7 +31,7 @@ def getfile():
         if filename[-(i+1)] == "/":
             directory = filename[:-i]
             print("Dir " + directory)
-            finished = True
+            dirbestimmt = True
     label.config(text = filename)
     print(name)
     return file, directory, name
@@ -65,16 +62,16 @@ def openwindow():
     tk.mainloop()
 
 def format(file, directory, name):
-    s = open(file.name, encoding = "utf8").read()
-    res1 = re.sub(r'[^\w\s]','',s) #punkte und kommas entfernen
-    res2 = re.sub(r'\d+', '', res1) #Zahlen entfernen
-    res3 = res2.lower() #alles klein
+    original_file = open(file.name, encoding = "utf8").read()
+    res1 = re.sub(r'[^\w\s]','',original_file)      #punkte und kommas entfernen
+    res2 = re.sub(r'\d+', '', res1)                 #Zahlen entfernen
+    formated_file_as_string = res2.lower()          #alles klein
     formatiert_file = open(directory + name + "/" + name + "-Formatiert.txt", "w+", encoding = "utf8")   #Neue Datei erstellen
-    formatiert_file.write("") #falls vorhanden leeren
-    formatiert_file.write(res3)
-    formated_string = res3
+    formatiert_file.write("")                       #falls vorhanden leeren
+    formatiert_file.write(formated_file_as_string)
     formatiert_file.close()
-    return formated_string
+    original_file.close()
+    return formated_file_as_string
 
 def count_chars(file_as_string, name):
     numLines = 0
@@ -85,50 +82,36 @@ def count_chars(file_as_string, name):
         numLines += 1
         numWords += len(wordsList)
         numChars += len(line)
-    #print("Lines %i  Words %i   Chars %i" % (numLines,numWords,numChars))
-    ergebnis_file_alpha = open(zuanalysieren + "/" + name + "-Ergebnis.txt","w+", encoding = "utf8")
+    ergebnis_file_alpha = open(directory + name + "/" + name + "-Ergebnis.txt","w+", encoding = "utf8")
     ergebnis_file_alpha.write("Lines %i  Words %i   Chars %i \n" % (numLines,numWords,numChars))
     ergebnis_file_alpha.close()
 
 def word_count(file_as_string, directory, name):
-    anzahl = 0
-    alpha = dict()
-    alpha.clear()
+    wortanzahl = 0
+    wortdict = dict()
+    wortdict.clear()
     words = file_as_string.split()
-    maxanzahl = 0
-    topwort = list()
-    topwort.clear()
-    for word in words:
-        
-        if word in alpha:           
-            if alpha[word] > maxanzahl and word not in ausnahmen and word not in topwort:
-                maxanzahl = alpha[word]
-                #if word not in topwort:
-                    #topwort.append(word)
-                    #ausnahmen2.append(word)
-                    #print(word)
-            alpha[word] += 1
+    for word in words:       
+        if word in wortdict and word not in ausnahmen:         
+            wortdict[word] += 1
         else:
-            alpha[word] = 1       
-            anzahl += 1
-    worter = list(alpha.keys())
-    worter.sort()
-    ergebnis_file_alpha = open(directory + name + "/" + name + "-Ergebnis_alpha.txt","a+", encoding = "utf8") #Neue Datei
-    ergebnis_file_alpha.write("Wortschatz: " + str(anzahl) +"\n")
-    #for i in range(0,10):
-    #    ergebnis_file.write("Platz" + " " + str(i+1) + ": " + topwort[i] + " mit " + str(alpha[topwort[i]]) + "\n")
-    for item in worter:
-        #print(item, counts[item])
-        ergebnis_file_alpha.write(item + " " + str(alpha[item]) + "\n")
+            wortdict[word] = 1       
+            wortanzahl += 1
+    words_alphabet_sorted = list(wortdict.keys())   #Alle Wöter
+    words_alphabet_sorted.sort()                    #sortiert
+    ergebnis_file_alpha = open(directory + name + "/" + name + "-Ergebnis_alphabetisch_sortiert.txt","a+", encoding = "utf8")   #Neue Datei
+    ergebnis_file_alpha.write("Wortschatz: " + str(wortanzahl) +"\n")
+    for wort in words_alphabet_sorted:
+        ergebnis_file_alpha.write(wort + " " + str(wortdict[wort]) + "\n")
     num = dict()
-    ergebnis_file_numerical = open(directory + name + "/" + name + "-Ergebnis_numerical.txt","a+", encoding = "utf8")
-    allezahlen = list(alpha.values())
-    allezahlen.sort()
-    for index in allezahlen:
-        if index not in num.values():
-            for item in worter:
-                if alpha[item] == index:
-                    num[item] = index
+    ergebnis_file_numerical = open(directory + name + "/" + name + "-Ergebnis_nach_Häufigkeit_sortiert.txt","a+", encoding = "utf8")
+    allezahlen = list(wortdict.values())            #Alle Zahlen
+    allezahlen.sort()                               #sortiert
+    for zahl in allezahlen:
+        if zahl not in num.values():
+            for item in words_alphabet_sorted:
+                if wortdict[item] == zahl:
+                    num[item] = zahl
                     ergebnis_file_numerical.write(item + " " + str(num[item]) + "\n")
      
 
@@ -140,23 +123,16 @@ def starte_analyse():
     file, directory, name = getfile()
     createfolder(directory, name)
     formatedstring = format(file, directory, name)
-    #count_chars(formated_file, zuanalysieren)
     word_count(formatedstring, directory, name)
 
 def createfolder(directory, name):
     try:
         os.mkdir(directory + name)
-    except FileExistsError:
+    except FileExistsError:         #Falls Ordner schon existiert -> Löschen
         shutil.rmtree(directory + name, ignore_errors=True)
         os.mkdir(directory + name)
 
-#file = open(zuanalysieren + ".txt","r", encoding = "utf8")
-#formated_file = format(file, zuanalysieren)
-
 openwindow()
-
-
-file.close()
 
 
 
