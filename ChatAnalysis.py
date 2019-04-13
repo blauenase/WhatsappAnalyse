@@ -3,9 +3,7 @@ import os
 import shutil
 import tkinter as tk
 from tkinter import filedialog
-
-ausnahmen = {"robin", "m", "daniel", "batu", "justus", "jana", "giuliano", "arweiler", "katha", "irina", "mama", "papa", "oma", "medien", "ausgeschlossen"}
-
+from tkinter import messagebox
 
 file = None
 filename = None
@@ -70,7 +68,6 @@ def format(file, directory, name):
     formatiert_file.write("")                       #falls vorhanden leeren
     formatiert_file.write(formated_file_as_string)
     formatiert_file.close()
-    original_file.close()
     return formated_file_as_string
 
 def count_chars(file_as_string, name):
@@ -92,17 +89,21 @@ def word_count(file_as_string, directory, name):
     wortdict.clear()
     words = file_as_string.split()
     for word in words:       
-        if word in wortdict and word not in ausnahmen:         
+        if word in wortdict:         
             wortdict[word] += 1
         else:
             wortdict[word] = 1       
             wortanzahl += 1
+    #Alphasort Anfang
+    print(alphavar)
     words_alphabet_sorted = list(wortdict.keys())   #Alle Wöter
     words_alphabet_sorted.sort()                    #sortiert
     ergebnis_file_alpha = open(directory + name + "/" + name + "-Ergebnis_alphabetisch_sortiert.txt","a+", encoding = "utf8")   #Neue Datei
     ergebnis_file_alpha.write("Wortschatz: " + str(wortanzahl) +"\n")
     for wort in words_alphabet_sorted:
         ergebnis_file_alpha.write(wort + " " + str(wortdict[wort]) + "\n")
+    print("Alpha fertig")
+    #Alphasort fertig - Numsort Anfang
     num = dict()
     ergebnis_file_numerical = open(directory + name + "/" + name + "-Ergebnis_nach_Häufigkeit_sortiert.txt","a+", encoding = "utf8")
     allezahlen = list(wortdict.values())            #Alle Zahlen
@@ -113,17 +114,18 @@ def word_count(file_as_string, directory, name):
                 if wortdict[item] == zahl:
                     num[item] = zahl
                     ergebnis_file_numerical.write(item + " " + str(num[item]) + "\n")
+    print("Num fertig")
      
 
     ergebnis_file_alpha.close()
     ergebnis_file_numerical.close()
-    file.close()
     
 def starte_analyse():
     file, directory, name = getfile()
     createfolder(directory, name)
     formatedstring = format(file, directory, name)
     word_count(formatedstring, directory, name)
+    tk.messagebox.showinfo("Fertig", "Die Analyse ist fertig")
 
 def createfolder(directory, name):
     try:
