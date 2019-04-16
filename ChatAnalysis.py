@@ -2,7 +2,8 @@ import re
 import json
 import os
 import shutil
-import tkinter as tk
+import random
+import tkinter as tk                #Muss mit pip installiert werden
 from tkinter import filedialog
 from tkinter import messagebox
 
@@ -83,9 +84,15 @@ def remove_name(file, directory, name):
     #print(lines[0].index(" "))
     erstername = lines[0][:lines[0].index(" ")]
     zweitername = lines[1][:lines[1].index(" ")]
+    i = 1
+    if erstername == zweitername:
+        while erstername == zweitername:
+            zweitername = lines[i][:lines[i].index(" ")]
+            i = i+1
     print(erstername,zweitername)
+    print(lines[0][lines[0].index(" ")+1:][:lines[0][lines[0].index(" ")+1:].index(" ")])
     möglicher_ersternachname = lines[0][lines[0].index(" ")+1:][:lines[0][lines[0].index(" ")+1:].index(" ")]
-    möglicher_zweiternachname = lines[1][lines[1].index(" ")+1:][:lines[1][lines[1].index(" ")+1:].index(" ")]
+    möglicher_zweiternachname = lines[i][lines[i].index(" ")+1:][:lines[i][lines[i].index(" ")+1:].index(" ")]
     result1 = tk.messagebox.askyesno("Nachname", "Ist das ein Nachname einer Person? " + möglicher_ersternachname.capitalize())
     result2 = tk.messagebox.askyesno("Nachname", "Ist das ein Nachname einer Person? " + möglicher_zweiternachname.capitalize())
     if result1:
@@ -221,7 +228,8 @@ def getindex(wordindex, allwords ,directory, name):
         results.append(offset)
     source.close()
 
-def getnextword(word):
+def getnextword(word, lines):
+
     for line in lines:      
         if word.upper() == line.split()[0]:
             zahl = random.randint(0,100)
@@ -252,24 +260,14 @@ def getnextword(word):
 
 def chat_bot(directory, name, length):
     wordfile = open(directory + name + "/" + name + "-Beispieltext.txt", "w+", encoding = "utf8")
-    currentword = ich
+    lines = open(directory + name + "/" + name + "-Wortanalyse.txt", "r", encoding = "utf8").readlines()
+    currentword = "ich"
     text = ""
-    for i in range(0,length):
+    for i in range(0,length):   
+        nextword = getnextword(currentword, lines)
         text = text + " " + currentword
-        nextword = getnextword(currentword)
         currentword = nextword
-    file.close()
-
-def starte_analyse():
-    file, directory, name = getfile()
-    createfolder(directory, name)
-    #formatedstring = format(file, directory, name)
-    format(file, directory, name)
-    word_count(directory, name)
-    remove_name(file, directory, name)
-    word_analysis(directory, name)
-    chat_bot(directory, name, 200)
-    tk.messagebox.showinfo("Fertig", "Die Analyse ist fertig")
+    wordfile.write(text)
 
 def createfolder(directory, name):
     try:
@@ -277,6 +275,17 @@ def createfolder(directory, name):
     except FileExistsError:         #Falls Ordner schon existiert -> Löschen
         shutil.rmtree(directory + name, ignore_errors=True)
         os.mkdir(directory + name)
+
+def starte_analyse():   
+    file, directory, name = getfile()
+    #tk.messagebox.showinfo("Analysiere", "Bitte warten",)
+    createfolder(directory, name)
+    format(file, directory, name)
+    word_count(directory, name)
+    remove_name(file, directory, name)
+    word_analysis(directory, name)
+    chat_bot(directory, name, 100)
+    tk.messagebox.showinfo("Fertig", "Die Analyse ist fertig",)
 
 openwindow()
 
