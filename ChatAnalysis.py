@@ -148,7 +148,7 @@ def word_count(directory, name):
     ergebnis_file_alpha.close()
     ergebnis_file_numerical.close()
     
-def synthese(directory, name):
+def word_analysis(directory, name):
     source = open(directory + name + "/" + name + "-Formatiert_ohne_Namen.txt", "r", encoding = "utf8")
     sourcetxt = source.read()
     words = sourcetxt.split()
@@ -159,7 +159,7 @@ def synthese(directory, name):
             allwords.append(word)
     #print(len(allwords))
     alldicts =[]
-    wordfile = open(directory + name + "/" + name + "-BeispielText.txt", "w+", encoding = "utf8")
+    wordfile = open(directory + name + "/" + name + "-Wortanalyse.txt", "w+", encoding = "utf8")
     u = 0
     wordssorted = list()
     for word in allwords:
@@ -168,9 +168,13 @@ def synthese(directory, name):
         else:
             wordssorted.append(word)
         newdict = dict()             #name des dict = allwords(index) index von dict
-        indices = getindex(u, directory, name)    
+        newdict.clear()
+        indices = getindex(u, allwords, directory, name) 
+        #print(word + "ggg")  
         u += 1
         for o in indices:
+            #print(words[o])
+            #print(words[o+1])
             if o == len(words)-1:
                 break
             if words[o+1] not in newdict:
@@ -178,26 +182,83 @@ def synthese(directory, name):
             else:
                 newdict[words[o+1]] += 1
         alldicts.append(newdict)
-        wordfile.write(word + "  " +  json.dumps(newdict) + "\n")
-    
-    print(newdict)
+        wordfile.write(word.upper() +" ")
+        num = dict()
+        num.clear()
+        allezahlen = []
+        allezahlen.clear()
+        allezahlen = list(newdict.values())
+        allezahlen.sort()
+        allezahlen.reverse()
+        alleworter = []
+        alleworter.clear()
+        alleworter = list(newdict.keys())
+        for index in allezahlen:
+            #if index not in num.values():
+            for item in alleworter:
+                if newdict[item] == index and item not in num:
+                    num[item] = index
+                    wordfile.write(item + " " + str(num[item])+", ")
+        wordfile.write("\n")
+        #wordfile.write(word + "  " +  json.dumps(newdict) + "\n")
+
     wordfile.close()
     source.close()
 
-def getindex(wordindex, directory, name):
+def getindex(wordindex, allwords ,directory, name):
     source = open(directory + name + "/" + name + "-Formatiert_ohne_Namen.txt", "r", encoding = "utf8")
     sourcetxt = source.read()
-    allwords = sourcetxt.split()
-    #print(allwords[wordindex])
+    alltext = sourcetxt.split()
     results = []
     offset = -1
     while True:
         try:
-            offset = allwords.index(allwords[wordindex], offset + 1)
+            offset = alltext.index(allwords[wordindex], offset + 1)
         except ValueError:
+            #print(allwords[wordindex])
+            #print(results)
             return results  
         results.append(offset)
     source.close()
+
+def getnextword(word):
+    for line in lines:      
+        if word.upper() == line.split()[0]:
+            zahl = random.randint(0,100)
+            #return line.split()[1]
+            try:
+                if zahl < 10:
+                    return line.split()[1]
+                elif zahl < 20:
+                    return line.split()[3]
+                elif zahl < 30:
+                    return line.split()[5]
+                elif zahl < 40:
+                    return line.split()[7]
+                elif zahl < 50:
+                    return line.split()[9]
+                elif zahl < 60:
+                    return line.split()[11]
+                elif zahl < 70:
+                    return line.split()[13]
+                elif zahl < 80:
+                    return line.split()[15]
+                elif zahl < 90:
+                    return line.split()[17]
+                else:
+                    return line.split()[19]
+            except:
+                return line.split()[1]
+
+def chat_bot(directory, name, length):
+    wordfile = open(directory + name + "/" + name + "-Beispieltext.txt", "w+", encoding = "utf8")
+    currentword = ich
+    text = ""
+    for i in range(0,length):
+        text = text + " " + currentword
+        nextword = getnextword(currentword)
+        currentword = nextword
+    file.close()
 
 def starte_analyse():
     file, directory, name = getfile()
@@ -206,7 +267,8 @@ def starte_analyse():
     format(file, directory, name)
     word_count(directory, name)
     remove_name(file, directory, name)
-    synthese(directory, name)
+    word_analysis(directory, name)
+    chat_bot(directory, name, 200)
     tk.messagebox.showinfo("Fertig", "Die Analyse ist fertig")
 
 def createfolder(directory, name):
