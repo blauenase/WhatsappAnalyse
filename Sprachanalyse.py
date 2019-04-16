@@ -3,7 +3,7 @@ import json
 
 name = "Jana"
 #test2
-def remove_name():
+"""def remove_name():
     file = open(name + "/" + name + "-Formatiert.txt", "r", encoding = "utf8")
     newtext = ""
     for line in file.readlines():       
@@ -20,9 +20,16 @@ def remove_name():
     newfile = open(name + "/" + name + "-FormatiertOhneNamen.txt", "w+", encoding = "utf8")
     newfile.write(newtext)
     file.close()
-    newfile.close()
+    newfile.close()"""
 
-def analysis():
+def remove_name():
+    file = open("formatiert")
+    lines = ()
+    lines = file.readlines()
+    print(lines)
+    lines.remove(0)
+
+def synthese():
     source = open(name + "/" + name + "-FormatiertOhneNamen.txt", "r", encoding = "utf8")
     sourcetxt = source.read()
     words = sourcetxt.split()
@@ -74,6 +81,7 @@ def getindex(wordindex):
         results.append(offset)
     source.close()
 
-remove_name()
+#
+# remove_name()
 analysis()
 #print(getindex(0))

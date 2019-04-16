@@ -1,4 +1,5 @@
 import re
+import json
 import os
 import shutil
 import tkinter as tk
@@ -60,16 +61,43 @@ def openwindow():
     tk.mainloop()
 
 def format(file, directory, name):
-    original_file = open(file.name, encoding = "utf8").read()
-    res1 = re.sub(r'[^\w\s]','',original_file)      #punkte und kommas entfernen
-    res2 = re.sub(r'\d+', '', res1)                 #Zahlen entfernen
-    formated_file_as_string = res2.lower()          #alles klein
-    formatiert_file = open(directory + name + "/" + name + "-Formatiert.txt", "w+", encoding = "utf8")   #Neue Datei erstellen
-    formatiert_file.write("")                       #falls vorhanden leeren
-    formatiert_file.write(formated_file_as_string)
-    formatiert_file.close()
-    return formated_file_as_string
+    formated_file = open(directory + name + "/" + name + "-Formatiert.txt", "w+", encoding = "utf8")   #Neue Datei erstellen
+    formated_file.write("")                       #falls vorhanden leeren
+    original_file = open(file.name, encoding = "utf8").readlines()
+    for line in original_file:
+        res1 = re.sub(r'[^\w\s]','',line)      #punkte und kommas entfernen
+        res2 = re.sub(r'\d+', '', res1)                 #Zahlen entfernen
+        res3 = res2.lower()          #alles klein
+        while res3[0] == " ":
+            res3 = res3[1:]
+        formated_file.write(res3)
+    formated_file.close()
+    return formated_file
 
+def remove_name(file, directory, name):
+    file = open(directory + name + "/" + name + "-Formatiert.txt", "r", encoding = "utf8")
+    file_withoutnames = open(directory + name + "/" + name + "-Formatiert_ohne_Namen.txt", "w+", encoding = "utf8")
+    lines = file.readlines()
+    del lines[0]                #Standardnachricht entfernen     
+    #print(lines[0])
+    #print(lines[0].index(" "))
+    erstername = lines[0][:lines[0].index(" ")]
+    zweitername = lines[1][:lines[1].index(" ")]
+    print(erstername,zweitername)
+    möglicher_ersternachname = lines[0][lines[0].index(" ")+1:][:lines[0][lines[0].index(" ")+1:].index(" ")]
+    möglicher_zweiternachname = lines[1][lines[1].index(" ")+1:][:lines[1][lines[1].index(" ")+1:].index(" ")]
+    result1 = tk.messagebox.askyesno("Nachname", "Ist das ein Nachname einer Person? " + möglicher_ersternachname.capitalize())
+    result2 = tk.messagebox.askyesno("Nachname", "Ist das ein Nachname einer Person? " + möglicher_zweiternachname.capitalize())
+    if result1:
+        erstername = erstername + " " +  möglicher_ersternachname
+    if result2:
+        zweitername = zweitername + " " + möglicher_zweiternachname
+    print(erstername,zweitername)
+    for line in lines:
+        res1 = line.replace(erstername,"",-1)
+        res2 = res1.replace(zweitername,"",-1)
+        file_withoutnames.write(res2)
+    
 def count_chars(file_as_string, name):
     numLines = 0
     numWords = 0
@@ -83,11 +111,11 @@ def count_chars(file_as_string, name):
     ergebnis_file_alpha.write("Lines %i  Words %i   Chars %i \n" % (numLines,numWords,numChars))
     ergebnis_file_alpha.close()
 
-def word_count(file_as_string, directory, name):
+def word_count(directory, name):
     wortanzahl = 0
     wortdict = dict()
     wortdict.clear()
-    words = file_as_string.split()
+    words = open(directory + name + "/" + name + "-Formatiert.txt", "r", encoding = "utf8").read().split()
     for word in words:       
         if word in wortdict:         
             wortdict[word] += 1
@@ -120,11 +148,65 @@ def word_count(file_as_string, directory, name):
     ergebnis_file_alpha.close()
     ergebnis_file_numerical.close()
     
+def synthese(directory, name):
+    source = open(directory + name + "/" + name + "-Formatiert_ohne_Namen.txt", "r", encoding = "utf8")
+    sourcetxt = source.read()
+    words = sourcetxt.split()
+    #print(words)
+    allwords = []
+    for word in words:
+        if word not in allwords:
+            allwords.append(word)
+    #print(len(allwords))
+    alldicts =[]
+    wordfile = open(directory + name + "/" + name + "-BeispielText.txt", "w+", encoding = "utf8")
+    u = 0
+    wordssorted = list()
+    for word in allwords:
+        if word in wordssorted:
+            continue
+        else:
+            wordssorted.append(word)
+        newdict = dict()             #name des dict = allwords(index) index von dict
+        indices = getindex(u, directory, name)    
+        u += 1
+        for o in indices:
+            if o == len(words)-1:
+                break
+            if words[o+1] not in newdict:
+                newdict[words[o+1]] = 1
+            else:
+                newdict[words[o+1]] += 1
+        alldicts.append(newdict)
+        wordfile.write(word + "  " +  json.dumps(newdict) + "\n")
+    
+    print(newdict)
+    wordfile.close()
+    source.close()
+
+def getindex(wordindex, directory, name):
+    source = open(directory + name + "/" + name + "-Formatiert_ohne_Namen.txt", "r", encoding = "utf8")
+    sourcetxt = source.read()
+    allwords = sourcetxt.split()
+    #print(allwords[wordindex])
+    results = []
+    offset = -1
+    while True:
+        try:
+            offset = allwords.index(allwords[wordindex], offset + 1)
+        except ValueError:
+            return results  
+        results.append(offset)
+    source.close()
+
 def starte_analyse():
     file, directory, name = getfile()
     createfolder(directory, name)
-    formatedstring = format(file, directory, name)
-    word_count(formatedstring, directory, name)
+    #formatedstring = format(file, directory, name)
+    format(file, directory, name)
+    word_count(directory, name)
+    remove_name(file, directory, name)
+    synthese(directory, name)
     tk.messagebox.showinfo("Fertig", "Die Analyse ist fertig")
 
 def createfolder(directory, name):
