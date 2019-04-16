@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['ChatAnalysis.py'],
-             pathex=['C:\\Users\\Daniel\\Documents\\PythonProjekte\\WhatsappAnalyse'],
+             pathex=['C:\\Users\\Daniel\\PythonProjekte\\WhatsappAnalyse'],
              binaries=[],
              datas=[],
              hiddenimports=[],
