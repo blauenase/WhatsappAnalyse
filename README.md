@@ -7,4 +7,5 @@ Features:
   - Counts all words and sorts them alphabetically and by number of occurrences
   - Creates an exemplary text which is based on your writing behavoir
   
-In Progress: - Visual representation
+In Progress: 
+  - Visual representation
