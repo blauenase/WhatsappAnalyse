@@ -39,16 +39,16 @@ def getfile():
 def openwindow():
     root = tk.Tk()
 
-    canvas = tk.Canvas(root, width = "200", height = "200")
+    canvas = tk.Canvas(root, width = "400", height = "400")
     canvas.pack()
 
-    alphavar = tk.IntVar()
-    alphacheckbox = tk.Checkbutton(canvas, text ="Sort alphabetically", variable = alphavar)
-    alphacheckbox.pack()
+    #alphavar = tk.IntVar()
+    #alphacheckbox = tk.Checkbutton(canvas, text ="Sort alphabetically", variable = alphavar)
+    #alphacheckbox.pack()
 
-    numvar = tk.IntVar()
-    numcheckbox = tk.Checkbutton(canvas, text ="Sort nummerically", variable = numvar)
-    numcheckbox.pack()
+    #numvar = tk.IntVar()
+    #numcheckbox = tk.Checkbutton(canvas, text ="Sort nummerically", variable = numvar)
+    #numcheckbox.pack()
     
     #button = tk.Button(canvas, text = "Select", command = getfile)
     #button.pack()
